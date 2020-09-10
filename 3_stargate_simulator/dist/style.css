@@ -307,6 +307,10 @@ body {
 .wormhole.on {
   background-color: #22A;
   box-shadow: 15px 15px 25px #11B inset, -15px -15px 45px #11A inset, 0 0 15px 10px rgba(0, 0, 0, 0.5);
+  background: url(images/BiodegradableUglyGallinule-size_restricted.gif) 0 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
 }
 div.message {
   position: absolute;
