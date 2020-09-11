@@ -203,7 +203,7 @@ public class NearEarthObjectController {
 
         stargateClient.createDocument(currentEarth,
                 Optional.ofNullable(earthId),
-                authToken,
+                stargateClient.authentiticate().get(),
                 "near_earth_object");
 
 
