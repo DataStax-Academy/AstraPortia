@@ -108,3 +108,10 @@ While at the **Stargate** be sure to click on all of the chevrons to activate th
 Use the **Earth Catalog** to look at the very, very small list of items we have in there right now.
 
 Finally, the **API Docs** will bring you to a swagger interface you can use to browse the back end API we implemented to work with the Stargate API. This was done to abstract the API a bit and make it very easy to start getting data from the database.
+
+![Screen Shot 2020-09-11 at 4 24 26 PM](https://user-images.githubusercontent.com/23346205/92969606-4b396a80-f44b-11ea-8f27-557d0e2f42d5.png)
+
+![Screen Shot 2020-09-11 at 4 25 01 PM](https://user-images.githubusercontent.com/23346205/92969641-5be9e080-f44b-11ea-9d63-3d624f252805.png)
+
+![Screen Shot 2020-09-11 at 4 25 30 PM](https://user-images.githubusercontent.com/23346205/92969683-6dcb8380-f44b-11ea-930b-762d57553085.png)
+
