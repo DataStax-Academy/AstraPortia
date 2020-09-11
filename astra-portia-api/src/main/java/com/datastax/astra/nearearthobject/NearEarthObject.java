@@ -19,7 +19,7 @@ public class NearEarthObject implements Serializable {
     private String designation;  
     
     @JsonProperty("discovery_date")
-    private Date discoveryDate;  
+    private String discoveryDate;  
     
     @JsonProperty("h_mag")
     private String h_mag;  
@@ -86,7 +86,7 @@ public class NearEarthObject implements Serializable {
      * @return
      *       current value of 'discoveryDate'
      */
-    public Date getDiscoveryDate() {
+    public String getDiscoveryDate() {
         return discoveryDate;
     }
 
@@ -95,7 +95,7 @@ public class NearEarthObject implements Serializable {
      * @param discoveryDate
      * 		new value for 'discoveryDate '
      */
-    public void setDiscoveryDate(Date discoveryDate) {
+    public void setDiscoveryDate(String discoveryDate) {
         this.discoveryDate = discoveryDate;
     }
 

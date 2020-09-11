@@ -9,9 +9,9 @@
 		<relativePath/>
 	</parent>
 	<groupId>com.datastax</groupId>
-	<artifactId>astra-stargate-sdk</artifactId>
+	<artifactId>astra-portia-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>astra-stargate-sdk</name>
+	<name>astra-portia-api</name>
 	<description>Interact with Astra API</description>
 
 	<properties>

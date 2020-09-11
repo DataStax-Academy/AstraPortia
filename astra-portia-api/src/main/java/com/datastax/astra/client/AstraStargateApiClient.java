@@ -1,5 +1,6 @@
 package com.datastax.astra.client;
 
+import java.io.Serializable;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpClient.Redirect;
@@ -85,15 +86,15 @@ public class AstraStargateApiClient {
     
     @SuppressWarnings("unchecked")
     public Optional<String> authentiticate() {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(getAstratUrlAuth()))
-                .timeout(Duration.ofMinutes(1))
-                .header("Content-Type", "application/json")
-                .POST(BodyPublishers.ofString("{ "
-                        + "\"username\": \""+ username +"\", "
-                        + "\"password\": \""+ password + "\"}"))
-                .build();
         try {
+            
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(getAstratUrlAuth()))
+                    .timeout(Duration.ofMinutes(1))
+                    .header("Content-Type", "application/json")
+                    .POST(BodyPublishers.ofString("{ "
+                            + "\"username\": \""+ username +"\", "
+                            + "\"password\": \""+ password + "\"}")).build();
             HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
             if (null !=response && response.statusCode() == HttpStatus.OK.value()) {
                 Map<String, String> repo = objectMapper.readValue(response.body(), Map.class);
@@ -105,8 +106,27 @@ public class AstraStargateApiClient {
         }
     }
     
+    public <D extends Serializable> String saveDocument(D doc, String authToken, String collectionName) {
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(getAstratUrlAuth()))
+                    .timeout(Duration.ofMinutes(1))
+                    .header("Content-Type", "application/json")
+                    .POST(BodyPublishers.ofString(objectMapper.writeValueAsString(doc))).build();
+            
+            // Todo implement the call
+        } catch (Exception e) {
+            throw new IllegalArgumentException("An error occured", e);
+        }
+        
+        // TODO parsing respond 
+        
+        return null;
+    }
     
-    
+    public <D extends Serializable> Optional<D> readObject(String authToken, String collectioName, String docId) {
+        return null;
+    }
     
     private String getAstraApiUrlCore() {
         StringBuilder sb = new StringBuilder();
@@ -117,5 +137,19 @@ public class AstraStargateApiClient {
     
     private String getAstratUrlAuth() {
         return getAstraApiUrlCore() + "/v1/auth/";
+    }
+    
+    private String getAstraUrlCreateNewObject(String collectionName) {
+        return getAstraApiUrlCore() + "/v2/namespaces/" + keyspace + "/collections/" + collectionName + "/";
+    }
+
+    /**
+     * Getter accessor for attribute 'objectMapper'.
+     *
+     * @return
+     *       current value of 'objectMapper'
+     */
+    public ObjectMapper getObjectMapper() {
+        return objectMapper;
     }
 }
