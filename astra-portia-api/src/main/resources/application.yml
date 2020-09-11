@@ -8,7 +8,10 @@ astra:
    username: gateuser
    password: gatepassword
    keyspace: stargate
-   
+ 
+spring:
+   messages:
+    basename: i18n/messages  
 # Documentation
 springdoc:
    

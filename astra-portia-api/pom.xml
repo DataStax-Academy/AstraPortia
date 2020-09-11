@@ -33,6 +33,17 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<!-- Enabling a web UI in the app -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		<!-- Hot reload for devs -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
+		</dependency>
 
 		<!-- Cassandra Driver (overriding spring defaults) -->
 		<dependency>
@@ -87,7 +98,6 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>${swaggerui.version}</version>
 		</dependency>
-
 
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>

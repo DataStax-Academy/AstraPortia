@@ -195,4 +195,34 @@ public class AstraStargateApiClient {
     public ObjectMapper getObjectMapper() {
         return objectMapper;
     }
+
+    /**
+     * Getter accessor for attribute 'dbId'.
+     *
+     * @return
+     *       current value of 'dbId'
+     */
+    public String getDbId() {
+        return dbId;
+    }
+
+    /**
+     * Getter accessor for attribute 'regionId'.
+     *
+     * @return
+     *       current value of 'regionId'
+     */
+    public String getRegionId() {
+        return regionId;
+    }
+
+    /**
+     * Getter accessor for attribute 'keyspace'.
+     *
+     * @return
+     *       current value of 'keyspace'
+     */
+    public String getKeyspace() {
+        return keyspace;
+    }
 }
