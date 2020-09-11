@@ -12,6 +12,7 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 
@@ -135,6 +136,13 @@ public class AstraStargateApiClient {
         } catch (Exception e) {
             throw new IllegalArgumentException("An error occured", e);
         }
+    }
+
+    public <D extends Serializable>  ArrayList getAllDocument(
+            String authToken,
+            String collectionName) {
+
+        return new ArrayList();
     }
    
     public Optional<String> readDocument(String authToken, String collectioName, String docId) {

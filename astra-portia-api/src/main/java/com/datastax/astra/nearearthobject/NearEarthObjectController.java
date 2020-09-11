@@ -85,7 +85,7 @@ public class NearEarthObjectController {
     public ResponseEntity<NearEarthObject> giveMeOneObject(HttpServletRequest request,
                                                            @Parameter(name = "taskId",
                                                                    description = "Unique identifier for earth to be retreived",
-                                                                   example = "Kepler-251 d",
+                                                                   example = "myEarthId",
                                                                    required = true)
                                                            @PathVariable(value = "earthId") String taskId) {
         logger.info("get an object");
@@ -139,25 +139,35 @@ public class NearEarthObjectController {
             @ApiResponse(responseCode = "400", description = "Json body not valid"),
             @ApiResponse(responseCode = "404", description = "Task UUID not found")})
     @RequestMapping(
-            value = "/{taskId}",
+            value = "/earth/{earthId}",
             method = PATCH,
             produces = APPLICATION_JSON_VALUE,
             consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<NearEarthObject> update(HttpServletRequest request,
-                                                  @Parameter(name = "earthId", required = true,
+                                                  @Parameter(name = "earthId",
+                                                          required = true,
                                                           description = "Unique identifier for a earth",
-                                                          example = "Kepler-251 d")
-                                                  @PathVariable(value = "earthId") String taskId,
+                                                          example = "myEarthId")
+                                                  @PathVariable(value = "earthId") String earthId,
                                                   @RequestBody
                                                       @io.swagger.v3.oas.annotations.parameters.RequestBody(
                                                               description = "Update all fields if needed",
                                                               required = true,
                                                               content = @Content(schema = @Schema(implementation = NearEarthObject.class)))
-                                                              NearEarthObject earth)
+                                                              NearEarthObject currentEarth)
             throws URISyntaxException {
         logger.info("update/modify a earth");
-        NearEarthObject o1 = new NearEarthObject();
-        return ResponseEntity.ok(o1);
+        //NearEarthObject currentEarth = new NearEarthObject();
+
+        currentEarth.setOrbitClass(earthId);
+
+        stargateClient.createDocument(currentEarth,
+                Optional.ofNullable(earthId),
+                authToken,
+                "near_earth_object");
+
+
+        return ResponseEntity.ok(currentEarth);
     }
 
     @RequestMapping(value = "/{earthId}", method = DELETE)
@@ -166,7 +176,7 @@ public class NearEarthObjectController {
     public ResponseEntity<Void> delete(HttpServletRequest request,
                                        @Parameter(name = "earthId", required = true,
                                                description = "Unique identifier for the earth",
-                                               example = "Kepler-251 d")
+                                               example = "myEarthId")
                                        @PathVariable(value = "earthId") String earthId) {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
