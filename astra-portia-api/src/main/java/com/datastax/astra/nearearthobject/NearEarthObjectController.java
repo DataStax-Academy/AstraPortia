@@ -161,9 +161,49 @@ public class NearEarthObjectController {
 
         currentEarth.setOrbitClass(earthId);
 
+        //stargateClient.createDocument(currentEarth,
+        //        Optional.ofNullable(earthId),
+        //        authToken,
+        //        "near_earth_object");
+
+
+        return ResponseEntity.ok(currentEarth);
+    }
+
+    @Operation(
+            summary = "create an existing earth",
+            description = "Create a Earth document passing id and providing body",
+            tags = {"create"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful operation",
+                    content = @Content(schema = @Schema(implementation = NearEarthObject.class))),
+            @ApiResponse(responseCode = "400", description = "Json body not valid"),
+            @ApiResponse(responseCode = "404", description = "Task UUID not found")})
+    @RequestMapping(
+            value = "/earth/{earthId}",
+            method = POST,
+            produces = APPLICATION_JSON_VALUE,
+            consumes = APPLICATION_JSON_VALUE)
+    public ResponseEntity<NearEarthObject> create(HttpServletRequest request,
+                                                  @Parameter(name = "earthId",
+                                                          required = true,
+                                                          description = "Unique identifier for a earth",
+                                                          example = "myEarthId")
+                                                  @PathVariable(value = "earthId") String earthId,
+                                                  @RequestBody
+                                                  @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                                                          description = "create a nearest earth",
+                                                          required = true,
+                                                          content = @Content(schema = @Schema(implementation = NearEarthObject.class)))
+                                                          NearEarthObject currentEarth)
+            throws URISyntaxException {
+        logger.info("create a nearest earth");
+        
+        currentEarth.setOrbitClass(earthId);
+
         stargateClient.createDocument(currentEarth,
                 Optional.ofNullable(earthId),
-                authToken,
+                stargateClient.authentiticate().get(),
                 "near_earth_object");
 
 
