@@ -2,6 +2,7 @@ package com.datastax.astra;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Assertions;
@@ -76,6 +77,15 @@ public class StargateTest {
         Assertions.assertTrue(neo2.isPresent());
         Assertions.assertEquals(neo2.get().getDocumentId(), docid2);
         Assertions.assertEquals(neo.getDesignation(), neo2.get().getData().getDesignation());
+    }
+    
+    @Test
+    public void should_search_ids() {
+        // Given
+        String authToken = stargateClient.authentiticate().get();
+        // When
+        //Set<String> ids = stargateClient.searchDocumentIds(authToken, AstraPortiaServices.NEAR_EARTH_OBJECT_COLLECTION, "flag", "1");
+        //System.out.println(ids);
     }
     
 

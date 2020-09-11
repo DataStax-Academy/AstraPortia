@@ -113,7 +113,7 @@ public class NearEarthObjectController {
     public ResponseEntity<List<NearEarthObject>> findAll(HttpServletRequest request) {
         logger.info("find all NearEarth documents");
 
-        List<NearEarthObject> nearEarthObjects = new ArrayList();
+        List<NearEarthObject> nearEarthObjects = new ArrayList<>();
 
         NearEarthObject o1 = new NearEarthObject();
         o1.setDesignation("o1.designation");
