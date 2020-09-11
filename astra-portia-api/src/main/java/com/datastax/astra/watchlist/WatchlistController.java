@@ -29,7 +29,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.PATCH;
         origins = "*"
 )
 @RestController
-@RequestMapping("/api/near_earth_object")
+@RequestMapping("/api/whatchLists")
 @Tag(name = "AstraPortia", description = "sample")
 public class WatchlistController {
 

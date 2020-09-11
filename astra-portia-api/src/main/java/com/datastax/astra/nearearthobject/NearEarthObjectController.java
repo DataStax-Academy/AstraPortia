@@ -11,6 +11,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,6 +81,42 @@ public class NearEarthObjectController {
         logger.info("get an object");
         NearEarthObject o1 =  new NearEarthObject();
         return ResponseEntity.ok(o1);
+    }
+
+    /**
+     * Retrieve all tasks (GET)
+     */
+    @Operation(
+            summary = "Retrieve all the nearest earth",
+            description = "retrieve all nearest earth",
+            tags = { "near_earth_object" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Sample",
+                    content = @Content(schema = @Schema(implementation = NearEarthObject.class))),
+            @ApiResponse(responseCode = "400", description = "Title is blank but is mandatory"),
+            @ApiResponse(responseCode = "500", description = "An error occur in storage") })
+    @RequestMapping(
+            value = "/earths",
+            method = GET,
+            produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<NearEarthObject>> findAll(HttpServletRequest request) {
+        logger.info("find all NearEarth documents");
+        
+        List<NearEarthObject> nearEarthObjects = new ArrayList();
+        
+        NearEarthObject o1 =  new NearEarthObject();
+        o1.setDesignation("o1.designation");
+        o1.setDiscoveryDate("10/09/2020");
+        
+        NearEarthObject o2 =  new NearEarthObject();
+        o2.setDesignation("o2.designation");
+        o2.setDiscoveryDate("21/07/2020");
+        
+        nearEarthObjects.add(o1);
+        nearEarthObjects.add(o2);
+        
+        return ResponseEntity.ok(nearEarthObjects);
     }
 
 }
