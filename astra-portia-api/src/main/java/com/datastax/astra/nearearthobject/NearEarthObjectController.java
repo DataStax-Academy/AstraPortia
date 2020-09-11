@@ -17,10 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.datastax.astra.client.AstraStargateApiClient;
 
@@ -31,6 +28,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
+import java.net.URISyntaxException;
 
 @CrossOrigin(
   methods = {PUT, POST, GET, OPTIONS, DELETE, PATCH},
@@ -124,6 +123,37 @@ public class NearEarthObjectController {
         nearEarthObjects.add(o2);
         
         return ResponseEntity.ok(nearEarthObjects);
+    }
+
+    @Operation(
+            summary = "Update an existing earth",
+            description = "Update a Earth document passing id and providing body",
+            tags = { "update" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful operation",
+                    content = @Content(schema = @Schema(implementation = Todo.class))),
+            @ApiResponse(responseCode = "400", description = "Json body not valid"),
+            @ApiResponse(responseCode = "404", description = "Task UUID not found") })
+    @RequestMapping(
+            value = "/{taskId}",
+            method = PATCH,
+            produces = APPLICATION_JSON_VALUE,
+            consumes = APPLICATION_JSON_VALUE)
+    public ResponseEntity<NearEarthObject> update(HttpServletRequest request,
+                                       @Parameter(name="taskId", required=true,
+                                               description="Unique identifier for the task",
+                                               example = "6f6c5b47-4e23-4437-ada8-d0a6f79330a2")
+                                       @PathVariable(value = "taskId") String taskId,
+                                       @RequestBody
+                                       @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                                               description = "Update all fields if needed",
+                                               required = true,
+                                               content = @Content(schema = @Schema(implementation = Todo.class)))
+                                               Todo task)
+            throws URISyntaxException {
+        logger.info("update/modify a earth");
+        NearEarthObject o1 =  new NearEarthObject();
+        return ResponseEntity.ok(o1);
     }
 
 }
