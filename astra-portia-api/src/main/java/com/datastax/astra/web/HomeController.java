@@ -23,8 +23,7 @@ public class HomeController extends AbstractController {
     /** Vie name. */
     private static final String HOME_VIEW = "home";
     
-    @Autowired
-    private AstraStargateApiClient apiClient;
+    
     
     /** {@inheritDoc} */
     @Override
@@ -37,9 +36,6 @@ public class HomeController extends AbstractController {
     public void get(HttpServletRequest req, HttpServletResponse res, WebContext ctx) 
     throws Exception {
         HomeBean hb = new HomeBean();
-        hb.setDbid(apiClient.getDbId());
-        hb.setRegionId(apiClient.getRegionId());
-        hb.setKeyspace(apiClient.getKeyspace());
         ctx.setVariable("homebean", hb);
     }
     
