@@ -1,5 +1,5 @@
 body {
-	background-image: url("../img/bodybg.png");
+	background-image: url("../img/space.jpeg");
 	font: 13px/1.7em 'Open Sans';
 }
     
@@ -92,8 +92,8 @@ textarea {
 }
     
 .subnavbar-inner {
-	background-image: url("../img/subnavbg.png"); 
-	border-bottom: 1px solid #d6d6d6;
+	background-image: url("../img/banner.jpg"); 
+	border-bottom: 1px solid #111100;
 	position:absolute;
 	top:60px;
 	left:0;
@@ -121,7 +121,7 @@ textarea {
 	margin-bottom:5px;
 	text-align: center;
 	list-style: none;
-	border-left: 1px solid #d9d9d9;
+	border-left: 1px solid #ffffff;
 }
 
 .subnavbar .container > ul > li > a {
@@ -132,7 +132,7 @@ textarea {
 	
 	font-size: 12px;
 	font-weight: bold;
-	color: #687684;
+	color: #ffffff;
 }
 
 .subnavbar .container > ul > li > a:hover {
@@ -1399,7 +1399,6 @@ color: #333;
 */
   .main-section {
 	vertical-align:middle;
-	background: #000;
 	overflow: hidden;
   }
   .center-menu {
@@ -1709,9 +1708,9 @@ color: #333;
 	background-size: 100% 100%;
   }
   div.message {
-	position: absolute;
+	/*position: absolute;*/
 	font-size: 42px;
-	color: #666;
+	color: #CCC;
 	top: 50vh;
 	z-index: 5;
 	width: 100%;
