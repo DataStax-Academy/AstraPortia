@@ -16,6 +16,7 @@ import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -140,10 +141,10 @@ public class NearEarthObjectController {
             produces = APPLICATION_JSON_VALUE,
             consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<NearEarthObject> update(HttpServletRequest request,
-                                       @Parameter(name="taskId", required=true,
-                                               description="Unique identifier for the task",
-                                               example = "6f6c5b47-4e23-4437-ada8-d0a6f79330a2")
-                                       @PathVariable(value = "taskId") String taskId,
+                                       @Parameter(name="earthId", required=true,
+                                               description="Unique identifier for a earth",
+                                               example = "Kepler-251 d")
+                                       @PathVariable(value = "earthId") String taskId,
                                        @RequestBody
                                        @io.swagger.v3.oas.annotations.parameters.RequestBody(
                                                description = "Update all fields if needed",
@@ -156,4 +157,13 @@ public class NearEarthObjectController {
         return ResponseEntity.ok(o1);
     }
 
-}
+    @RequestMapping(value = "/{earthId}", method = DELETE)
+    @Operation(summary = "Delete a Earth from its id of exists", description = "Delete a earth from its id of exists")
+    @ApiResponses(value = { @ApiResponse(responseCode = "204", description = "No results") } )
+    public ResponseEntity<Void> delete(HttpServletRequest request,
+                                       @Parameter(name="earthId", required=true,
+                                               description="Unique identifier for the earth",
+                                               example = "Kepler-251 d")
+                                       @PathVariable(value = "earthId") String earthId) {
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
