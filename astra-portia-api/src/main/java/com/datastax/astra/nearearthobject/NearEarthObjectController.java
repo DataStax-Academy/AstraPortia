@@ -18,12 +18,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.datastax.astra.client.AstraStargateApiClient;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -37,7 +39,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
   origins = "*"
 )
 @RestController
-@RequestMapping("/api/near_earth_object")
+@RequestMapping("/api/earths")
 @Tag(name = "AstraPortia", description = "sample")
 public class NearEarthObjectController {
     
@@ -66,7 +68,7 @@ public class NearEarthObjectController {
     @Operation(
             summary = "Retrieve an object",
             description = "retrieve an Object",
-            tags = { "near_earth_object" })
+            tags = { "findById" })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                          description = "Sample",
@@ -74,10 +76,15 @@ public class NearEarthObjectController {
             @ApiResponse(responseCode = "400", description = "Title is blank but is mandatory"),
             @ApiResponse(responseCode = "500", description = "An error occur in storage") })
     @RequestMapping(
-            value = "/",
+            value = "/earth/{earthId}",
             method = GET,
             produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<NearEarthObject> giveMeOneObject(HttpServletRequest request) {
+    public ResponseEntity<NearEarthObject> giveMeOneObject(HttpServletRequest request,
+                                                           @Parameter(name="taskId",
+                                                                   description="Unique identifier for earth to be retreived",
+                                                                   example = "Kepler-251 d",
+                                                                   required=true )
+                                                           @PathVariable(value = "earthId") String taskId) {
         logger.info("get an object");
         NearEarthObject o1 =  new NearEarthObject();
         return ResponseEntity.ok(o1);
@@ -89,7 +96,7 @@ public class NearEarthObjectController {
     @Operation(
             summary = "Retrieve all the nearest earth",
             description = "retrieve all nearest earth",
-            tags = { "near_earth_object" })
+            tags = { "earths" })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Sample",
@@ -97,7 +104,7 @@ public class NearEarthObjectController {
             @ApiResponse(responseCode = "400", description = "Title is blank but is mandatory"),
             @ApiResponse(responseCode = "500", description = "An error occur in storage") })
     @RequestMapping(
-            value = "/earths",
+            value = "/",
             method = GET,
             produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<List<NearEarthObject>> findAll(HttpServletRequest request) {
