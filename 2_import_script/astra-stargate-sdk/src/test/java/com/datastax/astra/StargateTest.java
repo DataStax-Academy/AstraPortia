@@ -2,6 +2,7 @@ package com.datastax.astra;
 
 import java.util.Optional;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
@@ -22,9 +23,9 @@ public class StargateTest {
     private AstraStargateApiClient stargateClient;
     
     @Test
-    public void testAuthenticate() {
+    public void shoud_return_an_authToken_() {
         Optional<String> authToken = stargateClient.authentiticate();
-        authToken.ifPresent(System.out::println);
+        Assertions.assertThat(authToken.isPresent());
     }
 
 }
