@@ -198,12 +198,12 @@ public class NearEarthObjectController {
                                                           NearEarthObject currentEarth)
             throws URISyntaxException {
         logger.info("create a nearest earth");
-        
+
         currentEarth.setOrbitClass(earthId);
 
         stargateClient.createDocument(currentEarth,
                 Optional.ofNullable(earthId),
-                stargateClient.authentiticate().get(),
+                authToken,
                 "near_earth_object");
 
 
