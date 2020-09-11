@@ -1402,15 +1402,24 @@ color: #333;
 	background: #000;
 	overflow: hidden;
   }
-  .right-menu {
-	width: 200px;
-	height: 200px;
-	border: 14px solid #333;
-	color: #FFF;
-	margin: auto;
-	position: relative;
-	text-align: center;
-	float: right;
+  .center-menu {
+	height: 300px;
+    margin: auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    font-size: 28px;
+    color: #666;
+    top: 38vh;
+    z-index: 0;
+    width: 100%;
+	right: 2vh;
+	visibility: hidden;
+  }
+  .center-menu.on {
+	visibility: visible;
   }
   .sg-border {
 	width: 675px;

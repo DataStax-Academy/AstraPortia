@@ -144,6 +144,7 @@ var stargate = {
     sounds.gateClose.play();
     setTimeout(function() {
       document.querySelector('.wormhole').classList.remove('on');
+      document.querySelector('.center-menu').classList.add('on');
       sounds.wormHole.pause();      
     }, 300);
     this.disableChevrons();
