@@ -3,12 +3,11 @@ server:
   
 astra:
   stargate:
-   dbId: eabba33b-dc22-4055-bced-e84e87cfa92c
-   regionId: europe-west1
+   db-id: eabba33b-dc22-4055-bced-e84e87cfa92c
+   region-id: europe-west1
    username: gateuser
    password: gatepassword
    keyspace: stargate
-   collection_neo: neo_doc
    
 # Documentation
 springdoc:

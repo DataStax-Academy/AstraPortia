@@ -34,10 +34,10 @@ public class AstraStargateApiClient {
     /** Header for authToken. */
     public static final String HEADER_CASSANDRA = "X-Cassandra-Token";
     
-    @Value("${astra.stargate.dbId}")
+    @Value("${astra.stargate.db-id}")
     private String dbId;
     
-    @Value("${astra.stargate.regionId}")
+    @Value("${astra.stargate.region-id}")
     private String regionId;
     
     @Value("${astra.stargate.username}")
@@ -53,17 +53,7 @@ public class AstraStargateApiClient {
     
     private ObjectMapper objectMapper;
     
-    public AstraStargateApiClient() {}
-    
-    public AstraStargateApiClient(String dbId, String regionId, 
-            String username, String password, String keyspace) {
-        super();
-        this.dbId = dbId;
-        this.regionId = regionId;
-        this.username = username;
-        this.password = password;
-        this.keyspace = keyspace;
-        
+    public AstraStargateApiClient() {
         // Setup HTTP client
         httpClient = HttpClient.newBuilder()
                 .version(Version.HTTP_2)
@@ -81,6 +71,16 @@ public class AstraStargateApiClient {
         objectMapper.setDateFormat(new SimpleDateFormat("dd/MM/yyyy"));
         objectMapper.setAnnotationIntrospector(new JacksonAnnotationIntrospector());
         LOGGER.info("Jackson serializer has been initialized");
+    }
+    
+    public AstraStargateApiClient(String dbId, String regionId, 
+            String username, String password, String keyspace) {
+        this();
+        this.dbId = dbId;
+        this.regionId = regionId;
+        this.username = username;
+        this.password = password;
+        this.keyspace = keyspace;
     }
     
     @SuppressWarnings("unchecked")
