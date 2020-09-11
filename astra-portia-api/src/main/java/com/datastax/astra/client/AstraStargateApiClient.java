@@ -7,6 +7,7 @@ import java.net.http.HttpClient.Redirect;
 import java.net.http.HttpClient.Version;
 import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
+import java.net.http.HttpRequest.Builder;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.text.SimpleDateFormat;
@@ -106,7 +107,37 @@ public class AstraStargateApiClient {
         }
     }
     
-    public <D extends Serializable> String saveDocument(D doc, String authToken, String collectionName) {
+    public <D extends Serializable> String createDocument(D doc, 
+            Optional<String> docId, 
+            String authToken, String collectionName) {
+        try {
+            Builder reqBuilder = HttpRequest.newBuilder()
+                    .uri(URI.create(getAstraUrlCreateNewDocument(docId, collectionName)))
+                    .timeout(Duration.ofMinutes(1))
+                    .header("Content-Type", "application/json")
+                    .header(HEADER_CASSANDRA, authToken);
+            // POST to create a new with no id
+            // PUT to create a new enforcing Id
+            if (docId.isEmpty()) {
+                reqBuilder.POST(BodyPublishers.ofString(objectMapper.writeValueAsString(doc)));
+            } else {
+                reqBuilder.PUT(BodyPublishers.ofString(objectMapper.writeValueAsString(doc)));
+            }
+            // Call
+            HttpResponse<String> response = httpClient.send(reqBuilder.build(), BodyHandlers.ofString());
+            if (null !=response && response.statusCode() == HttpStatus.CREATED.value()) {
+                return (String) objectMapper.readValue(response.body(), Map.class).get("documentId");
+            } else {
+                // you can have 409 if already exist an dedicated error
+                throw new IllegalArgumentException(response.body());
+            }
+        } catch (Exception e) {
+            throw new IllegalArgumentException("An error occured", e);
+        }
+    }
+    
+    public <D extends Serializable> String updateDocument(D doc, String documentid, 
+            String authToken, String collectionName) {
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(getAstratUrlAuth()))
@@ -139,8 +170,12 @@ public class AstraStargateApiClient {
         return getAstraApiUrlCore() + "/v1/auth/";
     }
     
-    private String getAstraUrlCreateNewObject(String collectionName) {
-        return getAstraApiUrlCore() + "/v2/namespaces/" + keyspace + "/collections/" + collectionName + "/";
+    private String getAstraUrlCreateNewDocument(Optional<String> docId, String collectionName) {
+        String url = getAstraApiUrlCore() + "/v2/namespaces/" + keyspace + "/collections/" + collectionName + "/";
+        if (docId.isPresent()) {
+            url = url + docId.get();
+        }
+        return url;
     }
 
     /**
