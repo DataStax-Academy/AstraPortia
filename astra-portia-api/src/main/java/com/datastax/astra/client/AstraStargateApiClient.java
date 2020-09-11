@@ -7,6 +7,7 @@ import java.net.http.HttpClient.Redirect;
 import java.net.http.HttpClient.Version;
 import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
+import java.net.http.HttpRequest.Builder;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.text.SimpleDateFormat;
@@ -106,26 +107,58 @@ public class AstraStargateApiClient {
         }
     }
     
-    public <D extends Serializable> String saveDocument(D doc, String authToken, String collectionName) {
+    public <D extends Serializable> String createDocument(D doc, 
+            Optional<String> docId, 
+            String authToken, String collectionName) {
         try {
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(getAstratUrlAuth()))
+            Builder reqBuilder = HttpRequest.newBuilder()
+                    .uri(URI.create(getAstraUrlCreateNewDocument(docId, collectionName)))
                     .timeout(Duration.ofMinutes(1))
                     .header("Content-Type", "application/json")
-                    .POST(BodyPublishers.ofString(objectMapper.writeValueAsString(doc))).build();
-            
-            // Todo implement the call
+                    .header(HEADER_CASSANDRA, authToken);
+
+            // PUT to create a new enforcing Id,POST to create a new with no id 
+            if (docId.isEmpty()) {
+                reqBuilder.POST(BodyPublishers.ofString(objectMapper.writeValueAsString(doc)));
+            } else {
+                reqBuilder.PUT(BodyPublishers.ofString(objectMapper.writeValueAsString(doc)));
+            }
+            // Call
+            HttpResponse<String> response = httpClient.send(reqBuilder.build(), BodyHandlers.ofString());
+            if (null !=response && (
+                    response.statusCode() == HttpStatus.CREATED.value() || 
+                    response.statusCode() == HttpStatus.OK.value())) {
+                return (String) objectMapper.readValue(response.body(), Map.class).get("documentId");
+            } else {
+                throw new IllegalArgumentException(response.body());
+            }
         } catch (Exception e) {
             throw new IllegalArgumentException("An error occured", e);
         }
-        
-        // TODO parsing respond 
-        
-        return null;
     }
-    
-    public <D extends Serializable> Optional<D> readObject(String authToken, String collectioName, String docId) {
-        return null;
+   
+    public Optional<String> readDocument(String authToken, String collectioName, String docId) {
+        try {
+            // Call
+            HttpRequest req = HttpRequest.newBuilder()
+                    .uri(URI.create(getAstraUrlFindDocumentById(docId, collectioName)))
+                    .timeout(Duration.ofMinutes(1))
+                    .header("Content-Type", "application/json")
+                    .header(HEADER_CASSANDRA, authToken)
+                    .GET().build();
+            System.out.println(req.uri());
+            HttpResponse<String> response = httpClient.send(req, BodyHandlers.ofString());
+            if (null !=response && response.statusCode() == HttpStatus.OK.value()) {
+                return Optional.of(response.body());
+            } else if (response.statusCode() == HttpStatus.NOT_FOUND.value()) {
+                throw new IllegalArgumentException("Invalid id, the document has not been found: " 
+                        + response.body());
+            } else {
+                throw new IllegalArgumentException(response.body());
+            }
+        } catch (Exception e) {
+            throw new IllegalArgumentException("An error occured", e);
+        }
     }
     
     private String getAstraApiUrlCore() {
@@ -139,8 +172,18 @@ public class AstraStargateApiClient {
         return getAstraApiUrlCore() + "/v1/auth/";
     }
     
-    private String getAstraUrlCreateNewObject(String collectionName) {
-        return getAstraApiUrlCore() + "/v2/namespaces/" + keyspace + "/collections/" + collectionName + "/";
+    private String getAstraUrlCreateNewDocument(Optional<String> docId, String collectionName) {
+        String url = getAstraApiUrlCore() + "/v2/namespaces/" + keyspace + "/collections/" + collectionName + "/";
+        if (docId.isPresent()) {
+            url = url + docId.get();
+        }
+        return url;
+    }
+    
+    private String getAstraUrlFindDocumentById(String docId, String collectionName) {
+        return getAstraApiUrlCore() 
+                + "/v2/namespaces/" + keyspace
+                + "/collections/" + collectionName + "/" + docId;
     }
 
     /**
