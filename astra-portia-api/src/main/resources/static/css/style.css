@@ -1403,23 +1403,32 @@ color: #333;
 	overflow: hidden;
   }
   .center-menu {
-	height: 300px;
+    height: 265px;
     margin: auto;
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
     position: absolute;
-    font-size: 28px;
-    color: #666;
+    font-size: 57px;
+    color: #999;
     top: 38vh;
     z-index: 0;
     width: 100%;
-	right: 2vh;
+    right: 2vh;
 	visibility: hidden;
   }
   .center-menu.on {
 	visibility: visible;
+  }
+  .planet {
+	background-image: url("../img/planet.jpg");
+	width: 505px;
+    height: 505px;
+    position: absolute;
+    z-index: -1;
+    border-radius: 50%;
+    top: -13vh;
   }
   .sg-border {
 	width: 675px;
