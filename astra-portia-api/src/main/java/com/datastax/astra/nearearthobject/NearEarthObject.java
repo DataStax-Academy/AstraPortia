@@ -11,6 +11,9 @@ public class NearEarthObject implements Serializable {
     /** Serial. */
     private static final long serialVersionUID = 3138868630196905390L;
 
+    @JsonProperty("flag")
+    private String flag = "1";
+    
     @JsonProperty("orbit_class")
     private String orbitClass;
     
@@ -229,6 +232,25 @@ public class NearEarthObject implements Serializable {
      */
     public void setQ_au_2(Double q_au_2) {
         this.q_au_2 = q_au_2;
+    }
+
+    /**
+     * Getter accessor for attribute 'flag'.
+     *
+     * @return
+     *       current value of 'flag'
+     */
+    public String getFlag() {
+        return flag;
+    }
+
+    /**
+     * Setter accessor for attribute 'flag'.
+     * @param flag
+     * 		new value for 'flag '
+     */
+    public void setFlag(String flag) {
+        this.flag = flag;
     }        
     
 }

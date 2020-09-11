@@ -15,6 +15,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -145,6 +146,30 @@ public class AstraStargateApiClient {
         return new ArrayList();
     }
    
+    public Set<String> searchDocumentIds(String authToken, String collectionName, String propertyName, String propertyValue) {
+        try {
+            // Call
+            HttpRequest req = HttpRequest.newBuilder()
+                    .uri(URI.create(getAstraUrlSearchDocuments(collectionName, propertyName, propertyValue)))
+                    .timeout(Duration.ofMinutes(1))
+                    .header("Content-Type", "application/json")
+                    .header(HEADER_CASSANDRA, authToken)
+                    .GET().build();
+            
+            HttpResponse<String> response = httpClient.send(req, BodyHandlers.ofString());
+            // Call
+            if (null !=response && response.statusCode() == HttpStatus.OK.value()) {
+                Map<String, Object> o = (Map<String, Object>) objectMapper.readValue(response.body(), Map.class).get("data");
+                System.out.println(o);
+                return o.keySet();
+            } else {
+                throw new IllegalArgumentException(response.body());
+            }
+        } catch (Exception e) {
+            throw new IllegalArgumentException("An error occured", e);
+        }
+    }
+    
     public Optional<String> readDocument(String authToken, String collectioName, String docId) {
         try {
             // Call
@@ -154,7 +179,6 @@ public class AstraStargateApiClient {
                     .header("Content-Type", "application/json")
                     .header(HEADER_CASSANDRA, authToken)
                     .GET().build();
-            System.out.println(req.uri());
             HttpResponse<String> response = httpClient.send(req, BodyHandlers.ofString());
             if (null !=response && response.statusCode() == HttpStatus.OK.value()) {
                 return Optional.of(response.body());
@@ -192,6 +216,14 @@ public class AstraStargateApiClient {
         return getAstraApiUrlCore() 
                 + "/v2/namespaces/" + keyspace
                 + "/collections/" + collectionName + "/" + docId;
+    }
+    
+    private String getAstraUrlSearchDocuments(String collectionName, String proname, String proValue) {
+        return getAstraApiUrlCore() 
+                + "/v2/namespaces/" + keyspace
+                + "/collections/" + collectionName + "?where={\"" + 
+                proname + "\": {\"$eq\": \"" + proValue + "\"}}";
+        
     }
 
     /**
