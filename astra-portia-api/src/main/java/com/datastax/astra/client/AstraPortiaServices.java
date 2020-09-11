@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.datastax.astra.nearearthobject.NearEarthObject;
+import com.datastax.astra.nearearthobject.NearEarthObjectStargateWrapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 @Component
@@ -35,10 +36,32 @@ public class AstraPortiaServices {
         }
     }
     
+    public String createNearEarthObject(String docId, String authToken, NearEarthObject doc) {
+        return stargateClient.createDocument(doc, Optional.ofNullable(docId), authToken, NEAR_EARTH_OBJECT_COLLECTION);
+    }
+    
     public void importNearEarthObjectsDataSet(String authToken, List<NearEarthObject> data) {
         for (NearEarthObject neo : data) {
             String doc = stargateClient.createDocument(neo, Optional.empty(), authToken, NEAR_EARTH_OBJECT_COLLECTION);
             logger.info("Document created with id {}" , doc);
         }
     }
+    
+    public Optional<NearEarthObjectStargateWrapper> findNearEarthObjectById(String authToken, String docid) {
+        Optional<String> doc = stargateClient.readDocument(authToken, NEAR_EARTH_OBJECT_COLLECTION, docid);
+        if (doc.isPresent()) {
+            try {
+                return Optional.ofNullable(
+                        stargateClient.getObjectMapper().readValue(doc.get(), NearEarthObjectStargateWrapper.class));
+            } catch (Exception e) {
+                throw new IllegalArgumentException("Cannot parse result ", e);
+            } 
+        }
+        return Optional.empty();
+        
+    }
+    
+    
+    
+    
 }
