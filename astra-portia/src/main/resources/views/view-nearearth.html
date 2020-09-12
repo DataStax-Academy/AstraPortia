@@ -1,0 +1,83 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:include="header :: head"></head>
+<body>
+  
+<div class="navbar navbar-fixed-top" th:include="navbar :: navbar"></div>
+
+ <div class="subnavbar" th:include="navbar:: subnavbar-cassandra"></div>
+
+<div id="wrapper" class="container" >
+ <div class="row">
+  <div class="span9"> 
+   <div id="content" class="clearfix" >
+    <div class="main-inner" style="margin-top:60px">
+     <div class="container">
+     
+      <div class="row">
+        <div class="span2">
+        
+          
+          <div class="span10">
+          
+  
+  <div th:if="${cbean.neolist != null}" style="width:100%;overflow:auto">
+  
+   <table id="resultTable" name="resultTable" class="table table-striped table-bordered" 
+   		  style="margin-top:10px">
+     <thead>
+      <tr>
+        <th><span th:text="OrbitClass">"Orbit Class"</span></th>
+        <th><span th:text="Designation">"Designation"</span></th>
+        <th><span th:text="DiscoveryDate">Discovery Date</span></th>
+        <th><span th:text="H_mag">H Mag</span></th>
+        <th><span th:text="I_deg">I_deg</span></th>
+        <th><span th:text="Moid_au">moid_au</span></th>
+        <th><span th:text="period_yr">Period_yr</span></th>
+        <th style="width:20px">E&nbsp;</th>
+        <th style="width:20px">D&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+     <tr th:each="currentLine : ${cbean.neolist}">
+	 <td><span th:text="${currentLine.data.orbitClass}">VALUE</span></td>
+	 <td><span th:text="${currentLine.data.designation}">VALUE</span></td>
+	 <td><span th:text="${currentLine.data.discoveryDate}">VALUE</span></td>
+	 <td><span th:text="${currentLine.data.h_mag}">VALUE</span></td>
+	 <td><span th:text="${currentLine.data.i_deg}">VALUE</span></td>
+	 <td><span th:text="${currentLine.data.moid_au}">VALUE</span></td>
+	 <td><span th:text="${currentLine.data.period_yr}">VALUE</span></td>
+	 <td>
+	  <a data-toggle="modal" href="#modalComing" class="btn btn-success"><i class="icon-pencil"></i></a></td>
+	  <td><a class="btn btn-danger"><i data-toggle="modal" href="#modalComing" class="icon-trash"></i></a></td>
+	  </tr>
+	</tbody>
+    </table>
+  </div>
+   </div> 
+  </div><!-- ROW -->
+          
+	 </div>
+	</div>
+   </div>
+  </div>
+ </div>
+</div>
+
+<script>
+window.onload = function() {
+  window.editor = CodeMirror.fromTextArea(document.getElementById('query'), {
+    mode: 'text/x-cassandra',
+    lineNumbers: true,
+    smartIndent: true,
+    extraKeys: {"Ctrl-Space": "autocomplete"}
+  });
+};
+</script>
+
+
+<div th:include="modals :: modal-coming"></div>
+
+   
+</body>
+</html>
