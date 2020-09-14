@@ -1,16 +1,13 @@
-#  ![ok](https://github.com/DataStax-Academy/AstraPortia/blob/master/0_materials/ico.jpg?raw=true) 
- AstraPortia
+# AstraPortia
+
+![ok](https://github.com/DataStax-Academy/AstraPortia/blob/master/0_materials/ico.jpg?raw=true) 
 
 We did stuff and now you get to read stuff. The general idea here was to create an application that leveraged new capabiltites for Astra and the Stargate API for Astra. Given the climate lately we thought it would be a good idea to find other planets we could live on and help others do the same while also keeping track of any near Earth objects that might decide to end our existence on our wonderful planet.
 
-*Demo project fo Stargate Hackathon by Clavis Team*
 ![CQLSH console](https://github.com/DataStax-Academy/AstraPortia/blob/master/0_materials/team.png?raw=true) 
+*Demo project fo Stargate Hackathon by Clavis Team*
 
-This application is a **MicroService** implemented with **Java** using **Spring Boot** and **Maven**. Commands issued will reflect this.
-
-Please note that you can run this application using GitPod, locally using either MAVEN or Docker. The GitPod button will appear in the top right corner if you are logged into GitHub.
-
-Be sure to check out our [FRICTION DOC](https://docs.google.com/document/d/1jbm4oqW8sTexEaGnskca2Lohs8uiZIvtCcqyrnz4BMs/edit?usp=sharing) to see what the experience was like for our team.
+This application is a **MicroService** implemented with **Java** using **Spring Boot** and **Maven**. Commands issued will reflect this. Be sure to check out our [FRICTION DOC](https://docs.google.com/document/d/1jbm4oqW8sTexEaGnskca2Lohs8uiZIvtCcqyrnz4BMs/edit?usp=sharing) to see what the experience was like for our team.
 
 ##  1. Run the DEMO
 
@@ -32,6 +29,20 @@ Choose how to start the APP:
 docker run -p 8080:8080 clunven/astra-portia
 ```
 
+*To build the image from the code you can use:*
+```
+git clone https://github.com/DataStax-Academy/AstraPortia.git
+cd astra-portia
+mvn clean package -DskipTests dockerfile:build
+```
+or
+```
+git clone https://github.com/DataStax-Academy/AstraPortia.git
+cd astra-portia
+mvn clean package -DskipTests
+docker build -t clunven/astra-portia .
+```
+
 ### Run in gitpod
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/DataStax-Academy/AstraPortia)
@@ -42,11 +53,21 @@ docker run -p 8080:8080 clunven/astra-portia
 
 - Clone the repo
 ```
-https://github.com/DataStax-Academy/AstraPortia.git
+git clone https://github.com/DataStax-Academy/AstraPortia.git
 ```
 - Start the application *(all tests are OK but import the dataset)
 ```
 mvn clean package -DskipTests spring-boot:run
+```
+
+### Run on Heroku
+
+The application is deployed on Heroku using the container feature. This is how we built the image
+
+```
+heroku container:login
+heroku container:push web --app astra-portia
+heroku container:release web --app astra-portia
 ```
 
 ## 2. Astra Environment
