@@ -67,7 +67,7 @@ heroku container:push web --app astra-portia
 heroku container:release web --app astra-portia
 ```
 
-## 3. Why is cool about this App
+## 3. What is cool about this App
 
 ![CQLSH console](https://github.com/DataStax-Academy/AstraPortia/blob/master/0_materials/team.png?raw=true) 
 
@@ -77,8 +77,7 @@ heroku container:release web --app astra-portia
 - We created a [batch to import a DataSet in ASTRA with Document API](https://github.com/DataStax-Academy/AstraPortia/blob/master/astra-portia/src/test/java/com/datastax/astraportia/AstraPortaiServicesTest.java)
 - We implemented Create, Read, Update, Delete leveraging the API
 
-
-## 3. Astra Environment
+## 4. More about the development Process
 
 ### Create an Instance
 
