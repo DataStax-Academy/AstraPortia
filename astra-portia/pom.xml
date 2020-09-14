@@ -155,20 +155,46 @@
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>${maven-plugin-compiler.version}</version>
 				</plugin>
-				<plugin>
-					<groupId>com.spotify</groupId>
-					<artifactId>dockerfile-maven-plugin</artifactId>
-					<version>${maven-plugin-dockerfile.version}</version>
-					<configuration>
-						<repository>datastax-samples/${project.artifactId}</repository>
-						<tag>${project.version}</tag>
-						<buildArgs>
-							<JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
-						</buildArgs>
-					</configuration>
-				</plugin>
+			  
 			</plugins>
 		</pluginManagement>
+
+		<plugins>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-jar-plugin</artifactId>
+            <configuration>
+            	<archive>
+                	<manifest>
+                    	<mainClass>com.datastax.astraportia.AstraStargateApplication</mainClass>
+                    </manifest>
+                 </archive>
+            </configuration>
+    	</plugin>
+		    <plugin>
+	            <groupId>org.springframework.boot</groupId>
+	            <artifactId>spring-boot-maven-plugin</artifactId>
+	            <executions>
+	                <execution>
+	                    <goals>
+	                        <goal>repackage</goal>
+	                    </goals>
+	                </execution>
+	            </executions>
+        	</plugin>
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<version>${maven-plugin-dockerfile.version}</version>
+				<configuration>
+					<repository>clunven/astra-portia</repository>
+					<tag>hackathon</tag>
+					<buildArgs>
+						<JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+					</buildArgs>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 
 	<organization>

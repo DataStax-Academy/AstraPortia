@@ -18,18 +18,18 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import com.datastax.astraportia.dao.AstraPortiaServices;
-import com.datastax.astraportia.dao.StargateClient;
+import com.datastax.astraportia.dao.StargateHttpClient;
 import com.datastax.astraportia.neo.Neo;
 import com.datastax.astraportia.neo.NeoDoc;
 
 /**
- * Validation of {@link StargateClient} with {@link Neo} and a Json Dataset.
+ * Validation of {@link StargateHttpClient} with {@link Neo} and a Json Dataset.
  * 
  * @author Cedrick LUNVEN (@clunven)
  */
 @RunWith(JUnitPlatform.class)
 @SpringJUnitConfig
-@ContextConfiguration(classes = {StargateClient.class, AstraPortiaServices.class})
+@ContextConfiguration(classes = {StargateHttpClient.class, AstraPortiaServices.class})
 @TestPropertySource(locations = "/application-test.properties")
 public class StargateClientTest {
     
@@ -37,7 +37,7 @@ public class StargateClientTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(StargateClientTest.class);
    
     @Autowired
-    private StargateClient client;
+    private StargateHttpClient client;
     
     @BeforeClass
     public static void logStart() {
@@ -49,13 +49,13 @@ public class StargateClientTest {
     
     @Test
     @DisplayName("When looking for token, one is generated")
-    public void should_generate_AuthToken() {
+    public void should_renew_authToken() {
         Assertions.assertNotNull(client.getAuthToken());
     }
     
     @Test
     @DisplayName("When creating doc, providing id, same id is returned by API.")
-    public void should_write_doc_using_provided_id() {
+    public void should_create_doc_use_provided_id() {
         // Given
         UUID myDocId = UUID.randomUUID();
         // When
@@ -65,8 +65,20 @@ public class StargateClientTest {
     }
     
     @Test
+    @DisplayName("When creating doc already exist = fails")
+    public void should_create_doc_fail_if_exist() {
+        // Given
+        UUID myDocId = UUID.randomUUID();
+        NeoDoc doc = new NeoDoc(new Neo(), myDocId.toString());
+        client.create(doc);
+        // When
+        Assertions.assertThrows(IllegalArgumentException.class, 
+                () -> client.create(doc));
+    }
+    
+    @Test
     @DisplayName("When creating a doc, reading the doc get back initial object")
-    public void should_write_doc_and_generate_id() {
+    public void should_create_doc_generate_newid() {
         // Given
         Neo neo = new Neo();
         neo.setDesignation("toto");
@@ -94,10 +106,73 @@ public class StargateClientTest {
     }
     
     @Test
+    @DisplayName("When creating a doc, reading the doc get back initial object")
+    public void should_delete_remove_doc() {
+        // Given
+        Neo neo = new Neo();
+        neo.setDesignation("sample delete call");
+        String uid = UUID.randomUUID().toString();
+        NeoDoc doc = new NeoDoc(neo, uid);
+        client.create(doc);
+        Assertions.assertTrue(client.exists(doc.getCollectionName(), uid));
+        // When
+        client.delete(doc.getCollectionName(), uid);
+        // Then
+        Assertions.assertFalse(client.exists(doc.getCollectionName(), uid));
+    }
+    
+    @Test
+    @DisplayName("When upsert an non existing doc, it is created")
+    public void should_upsert_create_newdoc() {
+        // Given
+        Neo neo = new Neo();
+        neo.setDesignation("sample upsert call create");
+        String uid = UUID.randomUUID().toString();
+        NeoDoc doc = new NeoDoc(neo, uid);
+        client.create(doc);
+        Assertions.assertTrue(client.exists(doc.getCollectionName(), uid));
+    }
+    
+    @Test
+    @DisplayName("When upsert an existing doc, its attributes are updated")
+    public void should_upsert_update_existing_doc() {
+        // Given
+        Neo neo = new Neo();
+        neo.setDesignation("sample upsert call");
+        String uid = UUID.randomUUID().toString();
+        NeoDoc doc = new NeoDoc(neo, uid);
+        client.create(doc);
+        Assertions.assertTrue(client.exists(doc.getCollectionName(), uid));
+        // When
+        String updatedDesignation = "updated designation";
+        neo.setDesignation(updatedDesignation);
+        client.upsert(new NeoDoc(neo, uid));
+        // Then
+        Optional<NeoDoc> newNeoDoc = client.findById(NeoDoc.NEO_DOC, uid, NeoDoc.class);
+        Assertions.assertTrue(newNeoDoc.isPresent());
+        Assertions.assertEquals(updatedDesignation, newNeoDoc.get().getData().getDesignation());
+    }
+    
+    @Test
+    @DisplayName("When creating a doc, reading the doc get back initial object")
+    public void should_exist_evaluate_object() {
+        // Given
+        Neo neo = new Neo();
+        neo.setDesignation("sample exist call");
+        // When
+        String uid = UUID.randomUUID().toString();
+        NeoDoc doc = new NeoDoc(neo, uid);
+        Assertions.assertFalse(client.exists(doc.getCollectionName(), uid));
+        String docId = client.create(doc);
+        Assertions.assertEquals(doc.getDocumentId().get(), docId);
+        Assertions.assertTrue(client.exists(doc.getCollectionName(), uid));
+    }
+    
+    @Test
     @DisplayName("Search all docs_Id with flag is 1")
     public void should_get_ids_from_propertyValue() {
         // When
-        Set<String> ids = client.findIdsByPropertyValue(NeoDoc.NEO_DOC, "flag", "1");
+        Set<String> ids = client.findDocumentsIdsFilterByPropertyValue(NeoDoc.NEO_DOC, "flag", "1");
         // Then
         Assertions.assertFalse(ids.isEmpty());
     }
@@ -106,7 +181,7 @@ public class StargateClientTest {
     @DisplayName("Search all docs with property designation (PK) = findAll")
     public void should_get_ids_from_propertyExists() {
         // When
-        Set<String> ids = client.findAllIds(NeoDoc.NEO_DOC, "flag");
+        Set<String> ids = client.findAllDocumentIds(NeoDoc.NEO_DOC, "flag");
         // Then
         Assertions.assertFalse(ids.isEmpty());
     }

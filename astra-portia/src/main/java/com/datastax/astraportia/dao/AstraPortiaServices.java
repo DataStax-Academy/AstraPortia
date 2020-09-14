@@ -3,8 +3,11 @@ package com.datastax.astraportia.dao;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -16,7 +19,7 @@ import com.datastax.astraportia.neo.NeoDoc;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
- * Implementation of service for the User Interface.
+ * Interface of services to be used in controllers.
  *
  * @author DataStax Clavis Team
  */
@@ -30,10 +33,10 @@ public class AstraPortiaServices {
     public static final String NEAR_EARTH_OBJECT_COLLECTION = "neo_doc";
    
     /** Where the Magic Happen. */
-    private StargateClient stargateClient;
+    private StargateHttpClient stargateClient;
     
     /** Injection client for service. */
-    public AstraPortiaServices(StargateClient client) {
+    public AstraPortiaServices(StargateHttpClient client) {
         this.stargateClient = client;
     }
     
@@ -67,15 +70,38 @@ public class AstraPortiaServices {
     }
     
     /**
+     * Simulating a destination for the Stargate
+     */
+    public NeoDoc getRandomNeo() {
+        List<String> ids = new ArrayList<>(stargateClient.findAllDocumentIds(NeoDoc.NEO_DOC, "designation"));
+        String randomId = ids.get(new Random().nextInt(ids.size()));
+        return stargateClient.findById(NeoDoc.NEO_DOC, randomId, NeoDoc.class).get();
+    }
+    
+    /**
      * Create a Doc for {@link Neo} enforcing identifier (search)
      */
     public String createNeo(Neo doc, String docId) {
         return stargateClient.create(new NeoDoc(doc, docId));
     }
     
+    
+    public String updateNeo(Neo doc, String docId)  {
+        return stargateClient.upsert(new NeoDoc(doc, docId));
+    }
+    
+    public void deleteNeo(String documentId) {
+        Objects.requireNonNull(documentId);
+        stargateClient.delete(NeoDoc.NEO_DOC, documentId);
+    }
+    
+    /**
+     * Looking for all documents in a collection. First retrieve all ids query for always existing property
+     * and chaining to get full doc. Does not scale.
+     */
     public List<NeoDoc> findAllNeos() {
         return stargateClient
-              .findAllIds(NeoDoc.NEO_DOC, "designation") // all objects have property 'designation'
+              .findAllDocumentIds(NeoDoc.NEO_DOC, "designation") // all objects have property 'designation'
               .parallelStream()
               .map(id -> stargateClient.findById(NeoDoc.NEO_DOC, id, NeoDoc.class)) // load full doc
               .filter(Optional::isPresent)

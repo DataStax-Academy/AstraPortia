@@ -129,6 +129,7 @@ var stargate = {
     this.CHAPAHAI_OPEN = true;
     this.stopMove();    
     sounds.gateOpen.play();
+    document.getElementById('cartouche').style.display='block';
     document.querySelector('.wormhole').classList.add('on');
     setTimeout(function() { 
       sounds.wormHole.play();

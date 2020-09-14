@@ -20,7 +20,7 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import com.datastax.astraportia.dao.AstraPortiaServices;
-import com.datastax.astraportia.dao.StargateClient;
+import com.datastax.astraportia.dao.StargateHttpClient;
 
 /**
  * SuperClass for controllers
@@ -39,7 +39,7 @@ public abstract class AbstractController {
     protected SpringTemplateEngine templateEngine;
     
     @Autowired
-    protected StargateClient apiClient;
+    protected StargateHttpClient apiClient;
     
     @Autowired
     protected AstraPortiaServices astraPortiaServices;

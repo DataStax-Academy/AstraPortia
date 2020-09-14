@@ -30,6 +30,7 @@ public class HomeController extends AbstractController {
     public void get(HttpServletRequest req, HttpServletResponse res, WebContext ctx) 
     throws Exception {
         HomeBean hb = new HomeBean();
+        hb.setDestination(astraPortiaServices.getRandomNeo());
         ctx.setVariable("homebean", hb);
     }
     

@@ -14,18 +14,18 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import com.datastax.astraportia.dao.AstraPortiaServices;
-import com.datastax.astraportia.dao.StargateClient;
+import com.datastax.astraportia.dao.StargateHttpClient;
 import com.datastax.astraportia.neo.Neo;
 import com.datastax.astraportia.neo.NeoDoc;
 
 /**
- * Validation of {@link StargateClient} with {@link Neo} and a Json Dataset.
+ * Validation of {@link StargateHttpClient} with {@link Neo} and a Json Dataset.
  * 
  * @author Cedrick LUNVEN (@clunven)
  */
 @RunWith(JUnitPlatform.class)
 @SpringJUnitConfig
-@ContextConfiguration(classes = {StargateClient.class, AstraPortiaServices.class})
+@ContextConfiguration(classes = {StargateHttpClient.class, AstraPortiaServices.class})
 @TestPropertySource(locations = "/application-test.properties")
 public class AstraPortaiServicesTest {
     

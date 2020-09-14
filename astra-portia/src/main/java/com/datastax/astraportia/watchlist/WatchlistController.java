@@ -30,9 +30,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
         allowedHeaders = {"x-requested-with", "origin", "content-type", "accept"},
         origins = "*"
 )
-@RestController
+//@RestController
 @RequestMapping("/api/whatchLists")
-@Tag(name = "AstraPortia", description = "sample")
+@Tag(name = "WatchList API", description = "sample")
 public class WatchlistController {
 
     private static final Logger logger = LoggerFactory.getLogger(WatchlistController.class);
