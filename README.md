@@ -1,7 +1,8 @@
+![ok](https://github.com/DataStax-Academy/AstraPortia/blob/master/astra-portia/src/main/resources/static/img/ico.jpg?raw=true) 
 # AstraPortia
 
-Demo project fo Stargate Hackathon by Clavis Team
- ![CQLSH console](https://github.com/DataStax-Academy/AstraPortia/blob/master/0_materials/team.png?raw=true) 
+Demo project fo Stargate Hackathon by Clavis Team:
+![CQLSH console](https://github.com/DataStax-Academy/AstraPortia/blob/master/0_materials/team.png?raw=true) 
 
 We did stuff and now you get to read stuff. The general idea here was to create an application that leveraged new capabiltites for Astra and the Stargate API for Astra. Given the climate lately we thought it would be a good idea to find other planets we could live on and help others do the same while also keeping track of any near Earth objects that might decide to end our existence on our wonderful planet.
 
@@ -11,31 +12,39 @@ Please note that you can run this application using GitPod, locally using either
 
 Be sure to check out our [FRICTION DOC](https://docs.google.com/document/d/1jbm4oqW8sTexEaGnskca2Lohs8uiZIvtCcqyrnz4BMs/edit?usp=sharing) to see what the experience was like for our team.
 
-
 ##  1. Run  DEMO
 
 ![CQLSH console](https://github.com/DataStax-Academy/AstraPortia/blob/master/0_materials/pic-travel.png?raw=true) 
 
-Click you path. 
+Choose how to start the APP:
+
 - For **Heroku** and **Docker** you are connected to our ASTRA instance. 
 - For **gitpod** and **Maven** you can edit variables to put to your instances.
 
-[![heroku](https://github.com/DataStax-Academy/AstraPortia/blob/master/0_materials/run-heroku.png?raw=true)](https://astra-portia.herokuapp.com/) ![CQLSH console](https://github.com/DataStax-Academy/AstraPortia/blob/master/0_materials/run-docker.png?raw=true) ![CQLSH console](https://github.com/DataStax-Academy/AstraPortia/blob/master/0_materials/run-gitpod.png?raw=true
-) ![CQLSH console](https://github.com/DataStax-Academy/AstraPortia/blob/master/0_materials/run-maven.png?raw=true)
+[![heroku](https://github.com/DataStax-Academy/AstraPortia/blob/master/0_materials/run-heroku.png?raw=true)](https://astra-portia.herokuapp.com/)[![CQLSH console](https://github.com/DataStax-Academy/AstraPortia/blob/master/0_materials/run-docker.png?raw=true)](#run-with-docker) [![CQLSH console](https://github.com/DataStax-Academy/AstraPortia/blob/master/0_materials/run-gitpod.png?raw=true
+)]((https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/DataStax-Academy/AstraPortia)) [![CQLSH console](https://github.com/DataStax-Academy/AstraPortia/blob/master/0_materials/run-maven.png?raw=true)](#run-with-maven)
 
 ### Run with Docker 
+
+**Prequisites:** *Have docker install on your machine*
 
 ```
 docker run -p 8080:8080 clunven/astra-portia
 ```
 
+### Run in gitpod
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/DataStax-Academy/AstraPortia)
+
 ### Run with maven
+
+**Prequisites:** *Have JDK11+ and Maven installed on your machine.*
 
 - Clone the repo
 ```
 https://github.com/DataStax-Academy/AstraPortia.git
 ```
-- Start the application *(all tests are OKK but import the dataset)
+- Start the application *(all tests are OK but import the dataset)
 ```
 mvn clean package -DskipTests spring-boot:run
 ```
