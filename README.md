@@ -4,10 +4,6 @@
 
 We did stuff and now you get to read stuff. The general idea here was to create an application that leveraged new capabiltites for Astra and the Stargate API for Astra. Given the climate lately we thought it would be a good idea to find other planets we could live on and help others do the same while also keeping track of any near Earth objects that might decide to end our existence on our wonderful planet.
 
-![CQLSH console](https://github.com/DataStax-Academy/AstraPortia/blob/master/0_materials/team.png?raw=true) 
-
-*Demo project fo Stargate Hackathon by Clavis Team*
-
 This application is a **MicroService** implemented with **Java** using **Spring Boot** and **Maven**. Commands issued will reflect this. Be sure to check out our [FRICTION DOC](https://docs.google.com/document/d/1jbm4oqW8sTexEaGnskca2Lohs8uiZIvtCcqyrnz4BMs/edit?usp=sharing) to see what the experience was like for our team.
 
 ##  1. Run the DEMO
@@ -71,7 +67,18 @@ heroku container:push web --app astra-portia
 heroku container:release web --app astra-portia
 ```
 
-## 2. Astra Environment
+## 3. Why is cool about this App
+
+![CQLSH console](https://github.com/DataStax-Academy/AstraPortia/blob/master/0_materials/team.png?raw=true) 
+
+*Demo project fo Stargate Hackathon by Clavis Team*
+
+- We create a [Java Client for Stargate Document API](https://github.com/DataStax-Academy/AstraPortia/blob/master/astra-portia/src/main/java/com/datastax/astraportia/stargate/StargateHttpClient.java) including the automation of authToken renewal.
+- We created a [batch to import a DataSet in ASTRA with Document API](https://github.com/DataStax-Academy/AstraPortia/blob/master/astra-portia/src/test/java/com/datastax/astraportia/AstraPortaiServicesTest.java)
+- We implemented Create, Read, Update, Delete leveraging the API
+
+
+## 3. Astra Environment
 
 ### Create an Instance
 
@@ -216,4 +223,3 @@ Finally, the **API Docs** will bring you to a swagger interface you can use to b
 ![Screen Shot 2020-09-11 at 4 25 01 PM](https://user-images.githubusercontent.com/23346205/92969641-5be9e080-f44b-11ea-9d63-3d624f252805.png)
 
 ![Screen Shot 2020-09-11 at 4 25 30 PM](https://user-images.githubusercontent.com/23346205/92969683-6dcb8380-f44b-11ea-930b-762d57553085.png)
-
