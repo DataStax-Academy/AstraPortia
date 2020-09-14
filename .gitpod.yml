@@ -1,7 +1,8 @@
 tasks: 
   - name: build
     before: cd astra-portia
-    init: mvn install -Dmaven.test.skip=true spring-boot:run
+    init: mvn install -Dmaven.test.skip=true
+    command: mvn spring-boot:run
 
 ports:
   - port: 3000-8999
