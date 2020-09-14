@@ -1,6 +1,7 @@
 # AstraPortia
 
-Demo project fo Stargate Hackathon
+Demo project fo Stargate Hackathon by Clavis Team
+ ![CQLSH console](https://github.com/DataStax-Academy/AstraPortia/blob/master/0_materials/team.png?raw=true) 
 
 We did stuff and now you get to read stuff. The general idea here was to create an application that leveraged new capabiltites for Astra and the Stargate API for Astra. Given the climate lately we thought it would be a good idea to find other planets we could live on and help others do the same while also keeping track of any near Earth objects that might decide to end our existence on our wonderful planet.
 
@@ -9,6 +10,35 @@ This application is a **MicroService** implemented with **Java** using **Spring 
 Please note that you can run this application using GitPod, locally using either MAVEN or Docker. The GitPod button will appear in the top right corner if you are logged into GitHub.
 
 Be sure to check out our [FRICTION DOC](https://docs.google.com/document/d/1jbm4oqW8sTexEaGnskca2Lohs8uiZIvtCcqyrnz4BMs/edit?usp=sharing) to see what the experience was like for our team.
+
+
+##  1. Run  DEMO
+
+![CQLSH console](https://github.com/DataStax-Academy/AstraPortia/blob/master/0_materials/pic-travel.png?raw=true) 
+
+Click you path. 
+- For **Heroku** and **Docker** you are connected to our ASTRA instance. 
+- For **gitpod** and **Maven** you can edit variables to put to your instances.
+
+[![heroku](https://github.com/DataStax-Academy/AstraPortia/blob/master/0_materials/run-heroku.png?raw=true)](https://astra-portia.herokuapp.com/) ![CQLSH console](https://github.com/DataStax-Academy/AstraPortia/blob/master/0_materials/run-docker.png?raw=true) ![CQLSH console](https://github.com/DataStax-Academy/AstraPortia/blob/master/0_materials/run-gitpod.png?raw=true
+) ![CQLSH console](https://github.com/DataStax-Academy/AstraPortia/blob/master/0_materials/run-maven.png?raw=true)
+
+### Run with Docker 
+
+```
+docker run -p 8080:8080 clunven/astra-portia
+```
+
+### Run with maven
+
+- Clone the repo
+```
+https://github.com/DataStax-Academy/AstraPortia.git
+```
+- Start the application *(all tests are OKK but import the dataset)
+```
+mvn clean package -DskipTests spring-boot:run
+```
 
 ## 1. Astra Environment
 
