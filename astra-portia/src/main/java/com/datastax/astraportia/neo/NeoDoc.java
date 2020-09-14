@@ -1,6 +1,6 @@
 package com.datastax.astraportia.neo;
 
-import com.datastax.astraportia.dao.StargateDocument;
+import com.datastax.astraportia.stargate.StargateDocument;
 
 /**
  * Wrapper to interact with Stargate.

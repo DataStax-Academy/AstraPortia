@@ -17,10 +17,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import com.datastax.astraportia.dao.AstraPortiaServices;
-import com.datastax.astraportia.dao.StargateHttpClient;
 import com.datastax.astraportia.neo.Neo;
 import com.datastax.astraportia.neo.NeoDoc;
+import com.datastax.astraportia.stargate.StargateHttpClient;
 
 /**
  * Validation of {@link StargateHttpClient} with {@link Neo} and a Json Dataset.

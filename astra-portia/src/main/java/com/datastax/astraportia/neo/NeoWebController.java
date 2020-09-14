@@ -12,14 +12,14 @@ import org.thymeleaf.context.WebContext;
 import com.datastax.astraportia.web.AbstractController;
 
 @Controller
-@RequestMapping(value="/nearearth")
+@RequestMapping(value="/neo")
 public class NeoWebController extends AbstractController {
     
     /** Logger for the class. */
     private static final Logger logger = LoggerFactory.getLogger(NeoWebController.class);
 
     /** Vie name. */
-    private static final String VIEW_NEO = "nearearth";
+    private static final String VIEW_NEO = "neo";
 
     /** {@inheritDoc} */
     @Override

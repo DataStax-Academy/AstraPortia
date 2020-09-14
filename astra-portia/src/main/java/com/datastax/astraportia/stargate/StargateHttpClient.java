@@ -1,4 +1,4 @@
-package com.datastax.astraportia.dao;
+package com.datastax.astraportia.stargate;
 
 import java.io.Serializable;
 import java.net.URI;

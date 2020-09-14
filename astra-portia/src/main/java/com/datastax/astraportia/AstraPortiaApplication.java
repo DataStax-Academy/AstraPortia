@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AstraStargateApplication {
+public class AstraPortiaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AstraStargateApplication.class, args);
+		SpringApplication.run(AstraPortiaApplication.class, args);
 	}
 
 }

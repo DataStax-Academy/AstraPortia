@@ -1,4 +1,4 @@
-package com.datastax.astraportia.dao;
+package com.datastax.astraportia;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import com.datastax.astraportia.neo.Neo;
 import com.datastax.astraportia.neo.NeoDoc;
+import com.datastax.astraportia.stargate.StargateHttpClient;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 /**

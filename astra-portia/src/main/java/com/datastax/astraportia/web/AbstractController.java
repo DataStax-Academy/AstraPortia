@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
-import com.datastax.astraportia.dao.AstraPortiaServices;
-import com.datastax.astraportia.dao.StargateHttpClient;
+import com.datastax.astraportia.AstraPortiaServices;
+import com.datastax.astraportia.stargate.StargateHttpClient;
 
 /**
  * SuperClass for controllers
